@@ -5,6 +5,12 @@
 <ul>
     <li>{{ $user->name}}</li>
     <li>{{ $user->email}}</li>
-    <li>{{ $user->create_at}}</li>
 </ul>
+
+<form action="{{ route('users.delete', $user->id) }}" method="POST">
+    @method('DELETE')
+    @csrf
+<button type="submit">Deletar</button>
+</form>
+
 @endsection
