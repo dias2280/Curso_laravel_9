@@ -8,10 +8,19 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+        protected $model;
+
+        public function __construct(User $user)
+    {
+        $this->model = $user;
+    }
     public function index(Request $request)
     {
-        $users = User::where('name', 'LIKE',"%{$request->search}%")->get();
-
+        $search = $request->search;
+        $users = $this->model
+                            ->getUsers
+                            (search: $request->search ?? ''
+                        ); 
         return view('users.index', compact('users'));
         
     }
@@ -22,7 +31,7 @@ class UserController extends Controller
             return redirect()->route('users.index');
 
         return view('users.show', compact('user'));
-        //$user = User::where('id', $id)->first();
+        //$user = $this->model('id', $id)->first();
         //dd($user);
     }
 
