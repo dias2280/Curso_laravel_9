@@ -27,4 +27,23 @@ class CommentController extends Controller
 
     return view('users.comments.index', compact('user','comments'));
 }
+public function create($userId)
+{
+    if(!$user = $this->user->find($userId)){
+        return redirect()->back();
+    }
+
+    return view('users.comments.create', compact('user'));
+}
+public function store(Request $request,$userId)
+{
+    if(!$user = $this->user->find($userId)){
+        return redirect()->back();
+    }
+
+    $user->comments()->create($request->all());
+
+    return redirect()->route('users.comments.index', $user->id);
+}
+
 }
